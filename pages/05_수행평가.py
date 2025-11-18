@@ -2,6 +2,33 @@ import streamlit as st
 import csv
 import os
 
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+FILE_PATH = os.path.join(CURRENT_DIR, "..", "10115misemeonjiji.csv")
+
+st.title("CSV 컬럼 구조 확인용")
+
+def load_csv(path):
+    encodings = ["utf-8", "utf-8-sig", "cp949", "euc-kr"]
+    for enc in encodings:
+        try:
+            with open(path, "r", encoding=enc) as f:
+                reader = csv.reader(f)
+                headers = next(reader)  # 첫 줄 읽기
+                st.write("📌 **CSV 헤더:**")
+                st.write(headers)
+                return
+        except Exception as e:
+            pass
+
+    st.error("CSV 파일을 어떤 인코딩으로도 읽을 수 없습니다.")
+    return
+
+load_csv(FILE_PATH)
+
+import streamlit as st
+import csv
+import os
+
 st.title("🌫️ 2024년 12월 서울 미세먼지 시간대 분석")
 st.write("날짜와 구를 선택하면 시간대별 미세먼지 농도를 분석하여 외출하기 좋은 시간을 추천합니다.")
 
